@@ -29,7 +29,7 @@ from custom_image_utils import constants
 _VERSION_REGEX = re.compile(r"^\d+\.\d+\.\d+(-RC\d+)?(-[a-z]+\d+)?$")
 _FULL_IMAGE_URI = re.compile(r"^(https://www\.googleapis\.com/compute/([^/]+)/)?projects/([^/]+)/global/images/([^/]+)$")
 _FULL_IMAGE_FAMILY_URI = re.compile(r"^(https://www\.googleapis\.com/compute/([^/]+)/)?projects/([^/]+)/global/images/family/([^/]+)$")
-_LATEST_FROM_MINOR_VERSION = re.compile(r"^(\d+)\.(\d+)-((?:debian|ubuntu|centos)\d+)$")
+_LATEST_FROM_MINOR_VERSION = re.compile(r"^(\d+)\.(\d+)-((?:debian|ubuntu|centos|rocky)\d+)$")
 
 def _version_regex_type(s):
   """Check if version string matches regex."""
@@ -223,5 +223,14 @@ def parse_args(args):
       "--dry-run",
       action="store_true",
       help="""(Optional) Only generates script without creating image.""")
+  parser.add_argument(
+      "--kms-key",
+      type=str,
+      required=False,
+      default="",
+      help=
+      """(Optional) The Cloud KMS (Key Management Service) cryptokey that will
+      be used to protect the disk. ID of the key or fully qualified identifier 
+      for the key.""")
 
   return parser.parse_args(args)

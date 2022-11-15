@@ -72,6 +72,7 @@ function main() {{
       --project={project_id} \
       --zone={zone} \
       ${{IMAGE_SOURCE}} \
+      {kms_key_flag} \
       --type=pd-ssd \
       --size={disk_size}GB
 
@@ -178,6 +179,10 @@ class Generator:
     if self.args["metadata"]:
       metadata_flag_template += ",{metadata}"
     self.args["metadata_flag"] = metadata_flag_template.format(**self.args)
+    if self.args["kms_key"]:
+      self.args["kms_key_flag"] = "--kms-key={kms_key}".format(**self.args)
+    else:
+      self.args["kms_key_flag"] = ""
 
   def generate(self, args):
     self._init_args(args)
